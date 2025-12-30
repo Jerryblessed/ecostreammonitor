@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
     <title>EcoStream AI</title>
+     <!-- Favicon link -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}" type="image/x-icon">
+
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ maps_key }}&libraries=marker"></script>
     <!-- Linking external CSS -->
@@ -43,6 +46,6 @@
     <!-- ELEVENLABS CONVERSATIONAL AI WIDGET (GEMINI 3 POWERED) -->
     <elevenlabs-convai agent-id="agent_0801kdppe0vjee8a7ypw4txexjnn"></elevenlabs-convai>
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-    
+
 </body>
 </html>
