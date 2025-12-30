@@ -15,6 +15,11 @@ from elevenlabs.client import ElevenLabs
 from confluent_kafka import Producer
 from datadog import initialize, api
 from ddtrace import tracer, patch_all
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 # --- STEP 1: INITIALIZE MONITORING ---
 os.environ["DD_SITE"] = os.environ.get("DD_SITE", "us5.datadoghq.com")

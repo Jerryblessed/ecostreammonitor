@@ -1,4 +1,5 @@
 flask
+python-dotenv
 google-cloud-vertexai
 google-cloud-aiplatform
 google-cloud-bigquery
