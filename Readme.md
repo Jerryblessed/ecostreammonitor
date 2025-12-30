@@ -1,4 +1,3 @@
-
 # 🌊 EcoStream: Closing the Green Visibility Gap
 
 **Built for the AI Partner Catalyst: Google Cloud Partnerships Hackathon | Confluent Challenge Entry**
@@ -51,6 +50,7 @@ EcoStream is built on a high-availability, multi-partner cloud architecture:
 *   **Cloud Run** (Containerized Hosting)
 *   **BigQuery** (Data Warehousing)
 *   **Google Maps Platform** (Advanced Markers & Vector Engine)
+*   **Google Cloud Speech-to-Text**
 *   **Cloud Identity (OAuth 2.0)**
 *   **Secret Manager**
 *   **Cloud Build**

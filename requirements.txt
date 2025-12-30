@@ -10,3 +10,4 @@ ddtrace
 datadog
 gunicorn
 requests
+google-cloud-speech

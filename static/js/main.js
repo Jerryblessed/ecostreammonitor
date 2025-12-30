@@ -7,6 +7,9 @@ let userToken = null;
 let map;
 let currentMarker = null;
 
+let mediaRecorder;
+let audioChunks = [];
+
 // --- 1. IDENTITY LOGIC ---
 // We attach this to 'window' so the Google GSI library can find it
 window.handleCredentialResponse = (response) => {
@@ -33,43 +36,55 @@ async function initMap() {
 }
 
 // --- 3. VOICE RECOGNITION LOGIC ---
-function toggleMic() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-        alert("Sir, your browser does not support voice features. Please use Google Chrome.");
-        return;
-    }
-
-    const recognition = new SpeechRecognition();
+async function toggleMic() {
     const btn = document.getElementById("micBtn");
     const status = document.getElementById("status");
 
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
+    if (!mediaRecorder || mediaRecorder.state === "inactive") {
+        // --- START RECORDING ---
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
 
-    recognition.onstart = () => {
+        mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+
+        mediaRecorder.onstop = async () => {
+            status.innerText = "Processing your voice via Google Cloud...";
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+
+            // Convert to Base64
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = async () => {
+                const base64Audio = reader.result.split(',')[1];
+
+                // Send to your new Backend route
+                const res = await fetch('/transcribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ audio: base64Audio })
+                });
+                const data = await res.json();
+
+                if (data.transcript) {
+                    status.innerText = `You said: "${data.transcript}"`;
+                    await callBackend(data.transcript); // Send text to Gemini
+                } else {
+                    status.innerText = "Sir, I couldn't hear that. Please try again.";
+                }
+            };
+        };
+
+        mediaRecorder.start();
         btn.classList.add("listening");
-        status.innerText = "Listening to your request...";
-    };
-
-    recognition.onresult = async (event) => {
-        const query = event.results[0][0].transcript;
-        status.innerText = `Searching for: "${query}"`;
-        await callBackend(query);
-    };
-
-    recognition.onerror = (event) => {
+        status.innerText = "Listening to your request (Google STT)...";
+    } else {
+        // --- STOP RECORDING ---
+        mediaRecorder.stop();
         btn.classList.remove("listening");
-        status.innerText = "Speech recognition error. Please try again.";
-        console.error("Speech Error:", event.error);
-    };
-
-    recognition.onend = () => {
-        btn.classList.remove("listening");
-    };
-
-    recognition.start();
+        // Stopping all tracks to turn off the red mic icon in browser
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    }
 }
 
 // --- 4. BACKEND COMMUNICATION ---

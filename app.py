@@ -25,12 +25,16 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from confluent_kafka import Producer
 
+from google.cloud import speech
 # Partner: ElevenLabs Official SDK (v2.27.0)
+
 from elevenlabs.client import ElevenLabs
 
 # Partner: Datadog Components
 from datadog import initialize, api
 from ddtrace import tracer, patch_all
+
+speech_client = speech.SpeechClient()
 
 # Initialize Datadog with explicit US5 Host for Events and Traces
 initialize(
@@ -81,6 +85,29 @@ def safe_float(value, default=0.0):
 def index():
     return render_template('index.html', maps_key=MAPS_API_KEY, client_id=CLIENT_ID)
 
+@app.route('/transcribe', methods=['POST'])
+def transcribe():
+    try:
+        audio_data = request.json.get('audio') # Base64 audio from JS
+        content = base64.b64decode(audio_data)
+
+        audio = speech.RecognitionAudio(content=content)
+        config = speech.RecognitionConfig(
+            encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
+            sample_rate_hertz=48000,
+            language_code="en-NG", # Optimized for Nigeria
+            enable_automatic_punctuation=True
+        )
+
+        response = speech_client.recognize(config=config, audio=audio)
+        
+        # Get the highest confidence transcript
+        transcript = response.results[0].alternatives[0].transcript if response.results else ""
+        
+        return jsonify({"transcript": transcript})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 @app.route('/chat', methods=['POST'])
 @tracer.wrap()
 def chat():
