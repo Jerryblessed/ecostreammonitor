@@ -75,7 +75,7 @@ Our final demo features **Veo 3.1** generative video, illustrating a citizen's j
 ## 👨‍💻 Developer
 **Jeremiah Ope**  
 *Solutions Architect & AI Developer*  
-Lagos, Nigeria 🇳🇬
+Abuja, Nigeria 🇳🇬
 
 ---
 
