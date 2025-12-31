@@ -1,4 +1,4 @@
-# 🌊 EcoStream: Closing the Green Visibility Gap
+# 🌊 EcoStreammonitor: Monitoring marchent account real-time
 
 **Built for the AI Partner Catalyst: Google Cloud Partnerships Hackathon | Confluent Challenge Entry**
 
@@ -7,7 +7,7 @@
 ---
 
 ## 📖 Overview
-**EcoStream** is a voice-driven AI navigator designed to solve **UN Sustainable Development Goal (SDG) 12: Responsible Consumption and Production**. 
+**EcoStreammonitor** is a voice-driven AI navigator designed to solve **UN Sustainable Development Goal (SDG) 12: Responsible Consumption and Production**. 
 
 In mega-cities like Lagos, citizens face a "Green Visibility Gap"—they want to shop sustainably but lack real-time data on local eco-friendly markets. EcoStream bridges this gap by using **Vertex AI** and **ElevenLabs** to provide a conversational guide that maps local markets and provides instant carbon-savings transparency. 
 
@@ -16,7 +16,7 @@ Every interaction is treated as **Data in Motion**, streamed through **Confluent
 ---
 
 ## 🏗️ System Architecture
-EcoStream is built on a high-availability, multi-partner cloud architecture:
+EcoStreammonitor is built on a high-availability, multi-partner cloud architecture:
 
 1.  **Secure Entry:** Google OAuth 2.0 ensures identity-based tracking.
 2.  **The Brain:** **Vertex AI (Gemini 2.5 Flash)** processes voice intent and calculates carbon impact.
