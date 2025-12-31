@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
-    <title>EcoStream AI</title>
+    <title>EcoStream Monitor AI</title>
      <!-- Favicon link -->
     <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}" type="image/x-icon">
 
@@ -16,7 +16,13 @@
 <body>
     <header>
         <h1>EcoStream Guide</h1>
-        <div>SDG 12 Impact</div>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <div>SDG 12 Impact</div>
+            <!-- Added Datadog Link Here -->
+            <a href="https://us5.datadoghq.com/dashboard/lists?p=1" target="_blank" style="color: inherit; text-decoration: underline; font-size: 0.9em;">
+                Monitor Dashboard
+            </a>
+        </div>
     </header>
 
     <div id="login-container">
@@ -38,10 +44,8 @@
         </div>
     </div>
 
-    
     <!-- Linking external JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
     <!-- ELEVENLABS CONVERSATIONAL AI WIDGET (GEMINI 3 POWERED) -->
     <elevenlabs-convai agent-id="agent_0801kdppe0vjee8a7ypw4txexjnn"></elevenlabs-convai>
